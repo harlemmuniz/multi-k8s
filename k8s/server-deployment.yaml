@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec: # para especificar como este objeto vai se comportar
+  replicas: 3
+  selector: # providenciar exatamente qual cluster de pod esse objeto vai providenciar acesso
+    matchLabels: # vai procurar procurar por pods dentro do cluster com essa label
+      component: server
+  template: # template dos pods desse deployment
+    metadata: # metadata dos pods
+      labels: # label para identificação deste dos pods desse deployment
+        component: server 
+    spec: # para especificar qual container esse pod vai rodar
+      containers:
+        - name: server
+          image: cygnetops/multi-server-pgfix-5-11
+          ports:
+            - containerPort: 5000 # porta na qual os containers dos pods estarão escutando dentro do cluster
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-ip-service
+            - name: REDIS_PORT
+              value: '6379'
+            - name: PGUSER
+              value: postgres
+            - name: PGHOST
+              value: postgres-cluster-ip-service
+            - name: PGPORT
+              value: '5432'
+            - name: PGDATABASE
+              value: postgres
+            - name: PGPASSWORD
+              valueFrom: # buscar do objeto secrets criado
+                secretKeyRef: 
+                  name: pgpassword # nome do secret criado
+                  key: PGPASSWORD # key do key=value criado, exemplo PGPASSWORD=123456

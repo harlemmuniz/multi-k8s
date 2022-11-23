@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec: # para especificar como este objeto vai se comportar
+  replicas: 3
+  selector: # providenciar exatamente qual cluster de pod esse objeto vai providenciar acesso
+    matchLabels: # vai procurar procurar por pods dentro do cluster com essa label
+      component: web 
+  template: # template dos pods desse deployment
+    metadata: # metadata dos pods
+      labels: # label para identificação deste dos pods desse deployment
+        component: web 
+    spec: # para especificar qual container esse pod vai rodar
+      containers:
+        - name: client
+          image: stephengrider/multi-client
+          ports:
+            - containerPort: 3000 # porta na qual os containers dos pods estarão escutando dentro do cluster

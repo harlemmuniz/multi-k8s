@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec: # para especificar como este objeto vai se comportar
+  replicas: 1
+  selector: # providenciar exatamente qual cluster de pod esse objeto vai providenciar acesso
+    matchLabels: # vai procurar procurar por pods dentro do cluster com essa label
+      component: postgres
+  template: # template dos pods desse deployment
+    metadata: # metadata dos pods
+      labels: # label para identificação deste dos pods desse deployment
+        component: postgres
+    spec:
+      volumes: # solicitar um persistent volume para cada pod do deployment
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
+      containers: # para especificar qual container esse pod vai rodar
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432 # porta na qual os containers dos pods estarão escutando dentro do cluster
+          volumeMounts: # alocar em cada container o persistent volume solicitado
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD

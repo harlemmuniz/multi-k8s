@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-cluster-ip-service
+spec: # para especificar como este serviço vai se comportar
+  type: ClusterIP
+  selector: # providenciar exatamente qual cluster de pod esse objeto vai providenciar acesso
+    component: redis # vai providenciar acesso aos pods que possuem essa label
+  ports:
+    - port: 6379 # para acessar esse Service, acessar a porta 3000
+      targetPort: 6379 # vai apontar para os pods com a porta 3000  dentro do cluster
