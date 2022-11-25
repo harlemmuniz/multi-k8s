@@ -14,7 +14,7 @@ spec: # para especificar como este objeto vai se comportar
     spec: # para especificar qual container esse pod vai rodar
       containers:
         - name: server
-          image: cygnetops/multi-server-pgfix-5-11
+          image: harlemmuniz/multi-server
           ports:
             - containerPort: 5000 # porta na qual os containers dos pods estarão escutando dentro do cluster
           env:

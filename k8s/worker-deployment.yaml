@@ -14,7 +14,7 @@ spec: # para especificar como este objeto vai se comportar
     spec: # para especificar qual container esse pod vai rodar
       containers:
         - name: worker
-          image: stephengrider/multi-worker
+          image: harlemmuniz/multi-worker
           # não precisa de port, pois esse container não irá receber requisições
           env:
             - name: REDIS_HOST

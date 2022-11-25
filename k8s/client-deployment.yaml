@@ -14,6 +14,6 @@ spec: # para especificar como este objeto vai se comportar
     spec: # para especificar qual container esse pod vai rodar
       containers:
         - name: client
-          image: stephengrider/multi-client
+          image: harlemmuniz/multi-client
           ports:
             - containerPort: 3000 # porta na qual os containers dos pods estarão escutando dentro do cluster
