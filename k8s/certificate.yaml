@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harlem-test-com-tls
+spec:
+  secretName: harlem-test-com
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: harlem-test.com
+  dnsNames:
+    - harlem-test.com
+    - www.harlem-test.com
